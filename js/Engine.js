@@ -68,8 +68,16 @@ class Engine {
   // This method is not implemented correctly, which is why
   // the burger never dies. In your exercises you will fix this method.
   isPlayerDead = () => {
-    return this.enemies.some((cat) => {
-      return cat.y > gameEngine.player.y - 50 && cat.x === gameEngine.player.x;
+    let playerDead = false;
+    this.enemies.forEach((cat) => {
+      if (
+        cat.y + ENEMY_HEIGHT - ENEMY_MARGIN > gameEngine.player.y &&
+        cat.y + ENEMY_RAINBOW < gameEngine.player.y + PLAYER_HEIGHT &&
+        cat.x === gameEngine.player.x
+      ) {
+        playerDead = true;
+      }
     });
+    return playerDead;
   };
 }
