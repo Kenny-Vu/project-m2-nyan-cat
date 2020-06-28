@@ -14,6 +14,8 @@ class Engine {
     // Initially, we have no enemies in the game. The enemies property refers to an array
     // that contains instances of the Enemy class
     this.enemies = [];
+    //we have to keep track of all projectiles so we can destroy them when needed
+    this.projectiles = [];
     // We add the background image to the game
     addBackground(this.root);
   }
@@ -39,6 +41,12 @@ class Engine {
       enemy.update(timeDiff);
     });
 
+    this.projectiles.forEach((shot) => {
+      shot.update(timeDiff);
+    });
+    this.projectiles = this.projectiles.filter((shot) => {
+      return !shot.destroyed;
+    });
     // We remove all the destroyed enemies from the array referred to by \`this.enemies\`.
     // We use filter to accomplish this.
     // Remember: this.enemies only contains instances of the Enemy class.
@@ -69,11 +77,11 @@ class Engine {
   // the burger never dies. In your exercises you will fix this method.
   isPlayerDead = () => {
     let playerDead = false;
-    this.enemies.forEach((cat) => {
+    this.enemies.forEach((foe) => {
       if (
-        cat.y + ENEMY_HEIGHT - ENEMY_MARGIN > gameEngine.player.y &&
-        cat.y + ENEMY_RAINBOW < gameEngine.player.y + PLAYER_HEIGHT &&
-        cat.x === gameEngine.player.x
+        foe.y + ENEMY_HEIGHT - ENEMY_MARGIN > gameEngine.player.y &&
+        foe.y + ENEMY_RAINBOW < gameEngine.player.y + PLAYER_HEIGHT &&
+        foe.x === gameEngine.player.x
       ) {
         playerDead = true;
       }

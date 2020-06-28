@@ -9,14 +9,18 @@ const gameEngine = new Engine(document.getElementById("app"));
 const keydownHandler = (event) => {
   // event.code contains a string. The string represents which key was press. If the
   // key is left, then we call the moveLeft method of gameEngine.player (where is this method defined?)
-  if (event.code === "ArrowLeft") {
+  if (event.code === "KeyA") {
     gameEngine.player.moveLeft();
   }
 
   // If `event.code` is the string that represents a right arrow keypress,
   // then move our hamburger to the right
-  if (event.code === "ArrowRight") {
+  if (event.code === "KeyD") {
     gameEngine.player.moveRight();
+  }
+  if (event.code === "KeyK") {
+    fireProjectile(gameEngine.root, gameEngine.player.x, gameEngine.player.y);
+    console.log(gameEngine.projectiles);
   }
 };
 
