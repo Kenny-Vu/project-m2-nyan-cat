@@ -47,6 +47,10 @@ class Engine {
     this.projectiles = this.projectiles.filter((shot) => {
       return !shot.destroyed;
     });
+    this.projectiles.forEach((shot) => {
+      checkCollision(this.projectiles, this.enemies);
+    });
+
     // We remove all the destroyed enemies from the array referred to by \`this.enemies\`.
     // We use filter to accomplish this.
     // Remember: this.enemies only contains instances of the Enemy class.

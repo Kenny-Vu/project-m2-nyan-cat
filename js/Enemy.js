@@ -29,7 +29,7 @@ class Enemy {
     // It is used in the Engine to determine whether or not an enemy is in a particular column.
     this.y = -ENEMY_HEIGHT;
     this.destroyed = false;
-
+    this.shot = false;
     // We create a new DOM element. The tag of this DOM element is img. It is the DOM node that will display the enemy image
     // to the user. When the enemy is no longer needed, we will use a reference to this DOM node to remove it from the game. This
     // is why we create a property that refers to it.
@@ -64,7 +64,9 @@ class Enemy {
     // the destroyed property to indicate that the enemy should no longer be in play
     if (this.y > GAME_HEIGHT) {
       this.root.removeChild(this.domElement);
-
+      this.destroyed = true;
+    } else if (this.shot) {
+      this.root.removeChild(this.domElement);
       this.destroyed = true;
     }
   }

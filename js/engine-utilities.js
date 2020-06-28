@@ -72,3 +72,18 @@ const fireProjectile = (theRoot, playerPositionX, playerPositionY) => {
   gameEngine.projectiles.push(beam);
   return beam;
 };
+
+const checkCollision = (beamArr, enemyArr) => {
+  beamArr.forEach(function (shot) {
+    enemyArr.forEach(function (foe) {
+      if (
+        foe.y + ENEMY_HEIGHT - ENEMY_MARGIN > shot.y &&
+        foe.x + ENEMY_WIDTH > shot.x &&
+        foe.x < shot.x
+      ) {
+        shot.destroyed = true;
+        foe.shot = true;
+      }
+    });
+  });
+};

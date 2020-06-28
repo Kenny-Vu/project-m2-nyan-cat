@@ -20,7 +20,6 @@ const keydownHandler = (event) => {
   }
   if (event.code === "KeyK") {
     fireProjectile(gameEngine.root, gameEngine.player.x, gameEngine.player.y);
-    console.log(gameEngine.projectiles);
   }
 };
 
