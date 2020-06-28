@@ -22,9 +22,16 @@ const keydownHandler = (event) => {
     fireProjectile(gameEngine.root, gameEngine.player.x, gameEngine.player.y);
   }
 };
-
+//We store the gameloop method inside this function that will also hide the start button
+const startGame = () => {
+  gameEngine.button.style.opacity = "0";
+  setTimeout(function () {
+    gameEngine.button.style.display = "none";
+    document.addEventListener("keydown", keydownHandler);
+    gameEngine.gameLoop();
+  }, 1500);
+};
 // We add an event listener to document. document the ancestor of all DOM nodes in the DOM.
-document.addEventListener("keydown", keydownHandler);
 
-// We call the gameLoop method to start the game
-gameEngine.gameLoop();
+// We add an event listener to the button in which we call the startGame function
+gameEngine.button.addEventListener("click", startGame);

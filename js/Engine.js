@@ -16,6 +16,9 @@ class Engine {
     this.enemies = [];
     //we have to keep track of all projectiles so we can destroy them when needed
     this.projectiles = [];
+    //we add a start button to start game
+    this.button = startButton(this.root);
+    this.score = scoreTxt(this.root);
     // We add the background image to the game
     addBackground(this.root);
   }

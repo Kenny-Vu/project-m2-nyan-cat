@@ -29,24 +29,3 @@ class Projectile {
     }
   };
 }
-//   checkCollision = (enemyArr) => {
-//     enemyArr.forEach(function (foe) {
-//       if (
-//         foe.y + ENEMY_HEIGHT - ENEMY_MARGIN > this.y &&
-//         foe.x + ENEMY_WIDTH > this.x &&
-//         foe.x < this.x
-//       ) {
-//         console.log("boom!");
-//       }
-//     });
-//   };
-
-//   update = (timeDiff) => {
-//     this.y -= timeDiff * this.speed;
-//     this.domElement.style.top = `${this.y}px`;
-//     if (this.domElement.style.top < `0px`) {
-//       this.root.removeChild(this.domElement);
-//       this.destroyed = true;
-//     }
-//   };
-// }

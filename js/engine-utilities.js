@@ -66,13 +66,50 @@ const addBackground = (root) => {
   whiteBox.style.background = "#fff";
   root.append(whiteBox);
 };
+// function to create start button
+const startButton = (root) => {
+  let button = document.createElement("button");
+  button.style.position = "absolute";
+  button.style.width = "160px";
+  button.style.height = "100px";
+  button.style.zIndex = "10";
+  button.style.top = "50%";
+  button.style.left = "42%";
+  button.style.fontSize = "1.5rem";
+  button.style.transitionDuration = "2s";
+  button.innerText = "START GAME";
+  button.style.color = "#00308f";
 
+  root.appendChild(button);
+  return button;
+};
+//function to create text score
+const scoreTxt = (root) => {
+  let scoreBox = document.createElement("div");
+  scoreBox.style.position = "absolute";
+  scoreBox.style.color = "white";
+  scoreBox.style.width = "220px";
+  scoreBox.style.height = "80px";
+  scoreBox.style.bottom = "100px";
+  scoreBox.style.right = "40px";
+  scoreBox.style.fontSize = "1.5rem";
+  scoreBox.style.display = "flex";
+  scoreBox.style.justifyContent = "center";
+  scoreBox.style.alignItems = "center";
+  scoreBox.style.zIndex = "6";
+  scoreBox.innerText = `Score: ${SCORE}`;
+
+  root.appendChild(scoreBox);
+  return scoreBox;
+};
+//logic for firing beams
 const fireProjectile = (theRoot, playerPositionX, playerPositionY) => {
   const beam = new Projectile(theRoot, playerPositionX, playerPositionY);
   gameEngine.projectiles.push(beam);
   return beam;
 };
 
+//logic to check collision between enemies and beams
 const checkCollision = (beamArr, enemyArr) => {
   beamArr.forEach(function (shot) {
     enemyArr.forEach(function (foe) {
@@ -83,6 +120,8 @@ const checkCollision = (beamArr, enemyArr) => {
       ) {
         shot.destroyed = true;
         foe.shot = true;
+        SCORE += 10;
+        gameEngine.score.innerText = `Score: ${SCORE}`;
       }
     });
   });

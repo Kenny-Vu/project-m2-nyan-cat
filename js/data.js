@@ -22,3 +22,6 @@ const PLAYER_HEIGHT = 54;
 // These constants represent the projectile width and height.
 const PROJECTILE_WIDTH = 10;
 const PROJECTILE_HEIGHT = 20;
+
+// constant to store player's score
+let SCORE = 0;
