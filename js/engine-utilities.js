@@ -114,6 +114,7 @@ const displayLives = (root) => {
   health.style.height = "100%";
   health.style.position = "absolute";
   health.style.backgroundColor = "green";
+  health.style.transitionDuration = "0.3s";
   healthBar.appendChild(health);
   root.appendChild(healthBar);
   return health;

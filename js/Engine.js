@@ -21,10 +21,15 @@ class Engine {
     this.score = scoreTxt(this.root);
     this.hpBar = displayLives(this.root);
     this.hp = 100;
-    this.bgm = document.createElement("audio");
-    this.laserSfx = document.createElement("audio");
-    this.bgm.src = "/sounds/Abstraction - Three Red Hearts - Penguin Town.wav";
-    this.laserSfx.src = "sounds/sf_laser_13.mp3";
+    this.bgm = new Sound(
+      "/sounds/Abstraction - Three Red Hearts - Penguin Town.wav"
+    );
+    this.laserSfx = new Sound("sounds/sf_laser_13.mp3");
+    this.bossMusic = new Sound(
+      "/sounds/Abstraction - Three Red Hearts - Save the City.wav"
+    );
+    this.bossLevel = false;
+    this.finalBoss = new Boss(this.root);
     // We add the background image to the game
     addBackground(this.root);
   }
@@ -72,36 +77,29 @@ class Engine {
       // We add this enemy to the enemies array
       const spot = nextEnemySpot(this.enemies);
       this.enemies.push(new Enemy(this.root, spot));
+      //if player scores above a certain score, then stop the game
+      if (SCORE > 100) {
+        this.enemies.forEach((enemy) => {
+          enemy.shot = true;
+          this.bgm.stopMusic();
+          this.bossLevel = true;
+          this.bossMusic.playMusic();
+          return;
+        });
+      }
     }
 
     // We check if the player is dead. If he is, we alert the user
     // and return from the method (Why is the return statement important?)
     if (this.isPlayerDead()) {
-      window.alert("Game over");
       return;
+    }
+    if (this.bossLevel) {
+      this.finalBoss.domElement.style.opacity = "100";
     }
     // If the player is not dead, then we put a setTimeout to run the gameLoop in 20 milliseconds
     const gameTimer = setTimeout(this.gameLoop, 20);
-    if (SCORE > 100) {
-      clearTimeout(gameTimer);
-      this.bgm.pause();
-    }
   };
-  // //method for boss battle???
-  // bossLoop = () => {
-  //   let timeDiff = new Date().getTime - this.lastFrame;
-  //   this.lastFrame = new Date().getTime;
-
-  //   this.projectiles.forEach((shot) => {
-  //     shot.update(timeDiff);
-  //   });
-  //   this.projectiles = this.projectiles.filter((shot) => {
-  //     return !shot.destroyed;
-  //   });
-  //   this.projectiles.forEach((shot) => {
-  //     checkCollision(this.projectiles, this.enemies);
-  //   });
-  // };
 
   //function to check if player died
   isPlayerDead = () => {
