@@ -41,29 +41,26 @@ const nextEnemySpot = (enemies) => {
 const addBackground = (root) => {
   // We create a new img DOM node.
   const bg = document.createElement("img");
-
   // We set its src attribute and the height and width CSS attributes
   bg.src = "images/gameBackground.jpg";
-  bg.style.height = `${GAME_HEIGHT}px`;
-  bg.style.width = `${GAME_WIDTH}px`;
+  bg.style.height = `100%`;
+  bg.style.width = `100%`;
 
   // We add it to the root DOM node
-  root.append(bg);
 
   // We don't want the enemies to go beyond the lower edge of the image
   // so we place a white div to hide the enemies after they reach the bottom.
   // To see what it does, you can comment out all the remaining lines in the function to see the effect.
   const whiteBox = document.createElement("div");
   //adding overflow to body to prevent scrolling
-  const body = document.body;
-  body.style.overflow = "hidden";
   // We put a high z-index so that the div is placed over all other DOM nodes
-  whiteBox.style.zIndex = 100;
+  whiteBox.style.zIndex = -1;
   whiteBox.style.position = "absolute";
-  whiteBox.style.top = `${GAME_HEIGHT}px`;
-  whiteBox.style.height = `${ENEMY_HEIGHT}px`;
-  whiteBox.style.width = `${GAME_WIDTH}px`;
+  // whiteBox.style.top = `${GAME_HEIGHT}px`;
+  whiteBox.style.height = `100%`;
+  whiteBox.style.width = `100%`;
   whiteBox.style.background = "#fff";
+  whiteBox.append(bg);
   root.append(whiteBox);
 };
 // function to create start button
@@ -90,7 +87,7 @@ const scoreTxt = (root) => {
   scoreBox.style.color = "white";
   scoreBox.style.width = "220px";
   scoreBox.style.height = "80px";
-  scoreBox.style.bottom = "100px";
+  scoreBox.style.bottom = "0px";
   scoreBox.style.right = "40px";
   scoreBox.style.fontSize = "1.5rem";
   scoreBox.style.display = "flex";
@@ -101,6 +98,25 @@ const scoreTxt = (root) => {
 
   root.appendChild(scoreBox);
   return scoreBox;
+};
+const displayLives = (root) => {
+  let healthBar = document.createElement("div");
+  let health = document.createElement("span");
+  healthBar.style.width = "150px";
+  healthBar.style.height = "50px";
+  healthBar.style.border = "white solid";
+  healthBar.style.borderRadius = "6px";
+  healthBar.style.position = "absolute";
+  healthBar.style.bottom = "20px";
+  healthBar.style.right = "220px";
+  healthBar.style.zIndex = "6";
+  health.style.width = "100%";
+  health.style.height = "100%";
+  health.style.position = "absolute";
+  health.style.backgroundColor = "green";
+  healthBar.appendChild(health);
+  root.appendChild(healthBar);
+  return health;
 };
 //logic for firing beams
 const fireProjectile = (theRoot, playerPositionX, playerPositionY) => {

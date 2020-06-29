@@ -20,6 +20,8 @@ const keydownHandler = (event) => {
   }
   if (event.code === "KeyK") {
     fireProjectile(gameEngine.root, gameEngine.player.x, gameEngine.player.y);
+    gameEngine.laserSfx.load();
+    gameEngine.laserSfx.play();
   }
 };
 //We store the gameloop method inside this function that will also hide the start button
@@ -28,7 +30,7 @@ const startGame = () => {
   setTimeout(function () {
     gameEngine.button.style.display = "none";
     document.addEventListener("keydown", keydownHandler);
-    gameEngine.sound.play();
+    gameEngine.bgm.play();
     gameEngine.gameLoop();
   }, 1500);
 };

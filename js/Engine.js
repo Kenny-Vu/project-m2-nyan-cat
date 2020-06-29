@@ -19,9 +19,12 @@ class Engine {
     //we add a start button to start game
     this.button = startButton(this.root);
     this.score = scoreTxt(this.root);
-    this.sound = document.createElement("audio");
-    this.sound.src =
-      "/sounds/Abstraction - Three Red Hearts - Penguin Town.wav";
+    this.hpBar = displayLives(this.root);
+    this.hp = 100;
+    this.bgm = document.createElement("audio");
+    this.laserSfx = document.createElement("audio");
+    this.bgm.src = "/sounds/Abstraction - Three Red Hearts - Penguin Town.wav";
+    this.laserSfx.src = "sounds/sf_laser_13.mp3";
     // We add the background image to the game
     addBackground(this.root);
   }
@@ -81,8 +84,7 @@ class Engine {
     const gameTimer = setTimeout(this.gameLoop, 20);
     if (SCORE > 100) {
       clearTimeout(gameTimer);
-
-      this.bossLoop();
+      this.bgm.pause();
     }
   };
   // //method for boss battle???
@@ -100,16 +102,26 @@ class Engine {
   //     checkCollision(this.projectiles, this.enemies);
   //   });
   // };
+
   //function to check if player died
   isPlayerDead = () => {
     let playerDead = false;
+    let playerHealth = this.hpBar;
     this.enemies.forEach((foe) => {
       if (
         foe.y + ENEMY_HEIGHT - ENEMY_MARGIN > gameEngine.player.y &&
         foe.y + ENEMY_RAINBOW < gameEngine.player.y + PLAYER_HEIGHT &&
         foe.x === gameEngine.player.x
       ) {
-        playerDead = true;
+        foe.shot = true;
+        this.hp -= 20;
+        playerHealth.style.width = `${this.hp}%`;
+        if (this.hp < 40) {
+          playerHealth.style.backgroundColor = "red";
+        }
+        if (this.hp === 0) {
+          playerDead = true;
+        }
       }
     });
     return playerDead;
