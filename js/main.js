@@ -28,6 +28,7 @@ const startGame = () => {
   setTimeout(function () {
     gameEngine.button.style.display = "none";
     document.addEventListener("keydown", keydownHandler);
+    gameEngine.sound.play();
     gameEngine.gameLoop();
   }, 1500);
 };

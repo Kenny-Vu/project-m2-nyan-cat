@@ -19,6 +19,9 @@ class Engine {
     //we add a start button to start game
     this.button = startButton(this.root);
     this.score = scoreTxt(this.root);
+    this.sound = document.createElement("audio");
+    this.sound.src =
+      "/sounds/Abstraction - Three Red Hearts - Penguin Town.wav";
     // We add the background image to the game
     addBackground(this.root);
   }
@@ -34,7 +37,6 @@ class Engine {
     if (this.lastFrame === undefined) {
       this.lastFrame = new Date().getTime();
     }
-
     let timeDiff = new Date().getTime() - this.lastFrame;
 
     this.lastFrame = new Date().getTime();
@@ -75,13 +77,30 @@ class Engine {
       window.alert("Game over");
       return;
     }
-
     // If the player is not dead, then we put a setTimeout to run the gameLoop in 20 milliseconds
-    setTimeout(this.gameLoop, 20);
-  };
+    const gameTimer = setTimeout(this.gameLoop, 20);
+    if (SCORE > 100) {
+      clearTimeout(gameTimer);
 
-  // This method is not implemented correctly, which is why
-  // the burger never dies. In your exercises you will fix this method.
+      this.bossLoop();
+    }
+  };
+  // //method for boss battle???
+  // bossLoop = () => {
+  //   let timeDiff = new Date().getTime - this.lastFrame;
+  //   this.lastFrame = new Date().getTime;
+
+  //   this.projectiles.forEach((shot) => {
+  //     shot.update(timeDiff);
+  //   });
+  //   this.projectiles = this.projectiles.filter((shot) => {
+  //     return !shot.destroyed;
+  //   });
+  //   this.projectiles.forEach((shot) => {
+  //     checkCollision(this.projectiles, this.enemies);
+  //   });
+  // };
+  //function to check if player died
   isPlayerDead = () => {
     let playerDead = false;
     this.enemies.forEach((foe) => {
