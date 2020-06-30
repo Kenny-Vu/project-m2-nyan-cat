@@ -13,12 +13,16 @@ class Engine {
     this.player = new Player(this.root);
     // Initially, we have no enemies in the game. The enemies property refers to an array
     // that contains instances of the Enemy class
+    this.finalBoss = new Boss(this.root);
+    this.bossLevel = false;
+    this.timePassed = 0;
     this.enemies = [];
+    //projectiles that the boss shoots
+    this.bossShots = [];
     //we have to keep track of all projectiles so we can destroy them when needed
     this.projectiles = [];
     //we add a start button to start game
     this.button = startButton(this.root);
-    this.winMsg = winTxt(this.root);
     this.score = scoreTxt(this.root);
     this.hpBar = displayLives(this.root);
     this.hp = 100;
@@ -29,8 +33,7 @@ class Engine {
     this.bossMusic = new Sound(
       "/sounds/Abstraction - Three Red Hearts - Save the City.wav"
     );
-    this.bossLevel = false;
-    this.finalBoss = new Boss(this.root);
+
     // We add the background image to the game
     addBackground(this.root);
   }
@@ -51,27 +54,31 @@ class Engine {
     this.lastFrame = new Date().getTime();
     // We use the number of milliseconds since the last call to gameLoop to update the enemy positions.
     // Furthermore, if any enemy is below the bottom of our game, its destroyed property will be set. (See Enemy.js)
+    // We remove all the destroyed enemies from the array referred to by \`this.enemies\`.
+    // We use filter to accomplish this.
+    // Remember: this.enemies only contains instances of the Enemy class.
+
     this.enemies.forEach((enemy) => {
       enemy.update(timeDiff);
     });
-
     this.projectiles.forEach((shot) => {
       shot.update(timeDiff);
+    });
+    this.bossShots.forEach((laser) => {
+      laser.update(timeDiff);
     });
     this.projectiles = this.projectiles.filter((shot) => {
       return !shot.destroyed;
     });
-    this.projectiles.forEach((shot) => {
-      checkCollision(this.projectiles, this.enemies);
-    });
-
-    // We remove all the destroyed enemies from the array referred to by \`this.enemies\`.
-    // We use filter to accomplish this.
-    // Remember: this.enemies only contains instances of the Enemy class.
     this.enemies = this.enemies.filter((enemy) => {
       return !enemy.destroyed;
     });
-
+    this.projectiles.forEach((shot) => {
+      checkCollision(this.projectiles, this.enemies);
+    });
+    this.bossShots = this.bossShots.filter((laser) => {
+      return !laser.destroyed;
+    });
     // We need to perform the addition of enemies until we have enough enemies.
     while (this.enemies.length < MAX_ENEMIES) {
       // We find the next available spot and, using this spot, we create an enemy.
@@ -79,7 +86,7 @@ class Engine {
       const spot = nextEnemySpot(this.enemies);
       this.enemies.push(new Enemy(this.root, spot));
       //if player scores above a certain score, then stop the game
-      if (SCORE > 500) {
+      if (SCORE > 100) {
         this.enemies.forEach((enemy) => {
           enemy.shot = true;
           this.bgm.stopMusic();
@@ -97,7 +104,13 @@ class Engine {
     }
     if (this.bossLevel) {
       this.finalBoss.domElement.style.opacity = "100";
-      this.winMsg.style.opacity = "100";
+      this.finalBoss.update(timeDiff);
+      bossFire(this.root, this.finalBoss.y, timeDiff);
+      checkBossShot(this.projectiles, this.finalBoss);
+    }
+    if (this.finalBoss.lives < 0) {
+      alert("You win!");
+      clearTimeout(gameTimer);
     }
     // If the player is not dead, then we put a setTimeout to run the gameLoop in 20 milliseconds
     const gameTimer = setTimeout(this.gameLoop, 20);

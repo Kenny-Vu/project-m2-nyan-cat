@@ -45,7 +45,6 @@ const addBackground = (root) => {
   bg.src = "images/gameBackground.jpg";
   bg.style.height = `100%`;
   bg.style.width = `100%`;
-
   // We add it to the root DOM node
 
   // We don't want the enemies to go beyond the lower edge of the image
@@ -99,25 +98,7 @@ const scoreTxt = (root) => {
   root.appendChild(scoreBox);
   return scoreBox;
 };
-const winTxt = (root) => {
-  let winBox = document.createElement("div");
-  winBox.style.position = "absolute";
-  winBox.style.color = "white";
-  winBox.style.width = "220px";
-  winBox.style.height = "80px";
-  winBox.style.bottom = "40%";
-  winBox.style.right = "45%";
-  winBox.style.fontSize = "1.5rem";
-  winBox.style.display = "flex";
-  winBox.style.justifyContent = "center";
-  winBox.style.alignItems = "center";
-  winBox.style.zIndex = "6";
-  winBox.style.opacity = "0";
-  winBox.innerText = `Thanks for playing! Boss fight in upcoming DLC! (Maybe)`;
 
-  root.appendChild(winBox);
-  return winBox;
-};
 const displayLives = (root) => {
   let healthBar = document.createElement("div");
   let health = document.createElement("span");
@@ -142,7 +123,15 @@ const displayLives = (root) => {
 const fireProjectile = (theRoot, playerPositionX, playerPositionY) => {
   const beam = new Projectile(theRoot, playerPositionX, playerPositionY);
   gameEngine.projectiles.push(beam);
-  return beam;
+};
+const bossFire = (theRoot, bossY, timeDiff) => {
+  gameEngine.timePassed += timeDiff;
+  if (gameEngine.timePassed > 1000) {
+    gameEngine.timePassed = 0;
+    const laser = new BossProjectiles(theRoot, bossY);
+    gameEngine.bossShots.push(laser);
+    return laser;
+  }
 };
 
 //logic to check collision between enemies and beams
@@ -160,5 +149,19 @@ const checkCollision = (beamArr, enemyArr) => {
         gameEngine.score.innerText = `Score: ${SCORE}`;
       }
     });
+  });
+};
+const checkBossShot = (beamArr, boss) => {
+  beamArr.forEach(function (shot) {
+    if (
+      boss.y + BOSS_HEIGHT > shot.y &&
+      boss.x + BOSS_WIDTH > shot.x &&
+      boss.x < shot.x
+    ) {
+      shot.destroyed = true;
+      SCORE += 10;
+      gameEngine.score.innerText = `Score: ${SCORE}`;
+      gameEngine.finalBoss.lives--;
+    }
   });
 };

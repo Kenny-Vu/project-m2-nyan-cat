@@ -16,7 +16,7 @@ class Projectile {
     this.domElement.style.left = this.x;
     this.domElement.style.zIndex = "4";
 
-    this.root.appendChild(this.domElement);
+    theRoot.appendChild(this.domElement);
   }
   update = (timeDiff) => {
     this.y -= timeDiff * this.speed;
