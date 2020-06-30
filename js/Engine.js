@@ -18,6 +18,7 @@ class Engine {
     this.projectiles = [];
     //we add a start button to start game
     this.button = startButton(this.root);
+    this.winMsg = winTxt(this.root);
     this.score = scoreTxt(this.root);
     this.hpBar = displayLives(this.root);
     this.hp = 100;
@@ -78,7 +79,7 @@ class Engine {
       const spot = nextEnemySpot(this.enemies);
       this.enemies.push(new Enemy(this.root, spot));
       //if player scores above a certain score, then stop the game
-      if (SCORE > 100) {
+      if (SCORE > 500) {
         this.enemies.forEach((enemy) => {
           enemy.shot = true;
           this.bgm.stopMusic();
@@ -96,6 +97,7 @@ class Engine {
     }
     if (this.bossLevel) {
       this.finalBoss.domElement.style.opacity = "100";
+      this.winMsg.style.opacity = "100";
     }
     // If the player is not dead, then we put a setTimeout to run the gameLoop in 20 milliseconds
     const gameTimer = setTimeout(this.gameLoop, 20);

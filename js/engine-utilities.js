@@ -67,12 +67,12 @@ const addBackground = (root) => {
 const startButton = (root) => {
   let button = document.createElement("button");
   button.style.position = "absolute";
-  button.style.width = "160px";
+  button.style.width = "250px";
   button.style.height = "100px";
   button.style.zIndex = "10";
   button.style.top = "50%";
-  button.style.left = "42%";
-  button.style.fontSize = "1.5rem";
+  button.style.left = "40%";
+  button.style.fontSize = "1.25rem";
   button.style.transitionDuration = "2s";
   button.innerText = "START GAME";
   button.style.color = "#00308f";
@@ -98,6 +98,25 @@ const scoreTxt = (root) => {
 
   root.appendChild(scoreBox);
   return scoreBox;
+};
+const winTxt = (root) => {
+  let winBox = document.createElement("div");
+  winBox.style.position = "absolute";
+  winBox.style.color = "white";
+  winBox.style.width = "220px";
+  winBox.style.height = "80px";
+  winBox.style.bottom = "40%";
+  winBox.style.right = "45%";
+  winBox.style.fontSize = "1.5rem";
+  winBox.style.display = "flex";
+  winBox.style.justifyContent = "center";
+  winBox.style.alignItems = "center";
+  winBox.style.zIndex = "6";
+  winBox.style.opacity = "0";
+  winBox.innerText = `Thanks for playing! Boss fight in upcoming DLC! (Maybe)`;
+
+  root.appendChild(winBox);
+  return winBox;
 };
 const displayLives = (root) => {
   let healthBar = document.createElement("div");

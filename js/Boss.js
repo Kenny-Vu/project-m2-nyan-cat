@@ -10,7 +10,7 @@ class Boss {
     this.domElement.src = "images/boss.png";
     this.domElement.style.position = "absolute";
     this.domElement.style.opacity = 0;
-    this.domElement.style.transitionDuration = "2s";
+    this.domElement.style.transitionDuration = "4s";
 
     this.root.appendChild(this.domElement);
   }
