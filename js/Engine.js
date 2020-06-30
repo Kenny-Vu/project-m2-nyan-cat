@@ -86,7 +86,7 @@ class Engine {
       const spot = nextEnemySpot(this.enemies);
       this.enemies.push(new Enemy(this.root, spot));
       //if player scores above a certain score, then stop the game
-      if (SCORE > 100) {
+      if (SCORE > 1000) {
         this.enemies.forEach((enemy) => {
           enemy.shot = true;
           this.bgm.stopMusic();
@@ -100,7 +100,7 @@ class Engine {
     // We check if the player is dead. If he is, we alert the user
     // and return from the method (Why is the return statement important?)
     if (this.isPlayerDead()) {
-      return;
+      window.alert("You died (┛ಠ_ಠ)┛彡┻━┻");
     }
     if (this.bossLevel) {
       this.finalBoss.domElement.style.opacity = "100";
@@ -109,7 +109,7 @@ class Engine {
       checkBossShot(this.projectiles, this.finalBoss);
     }
     if (this.finalBoss.lives < 0) {
-      alert("You win!");
+      alert("You win! ᕕ( ಠ‿ಠ)ᕗ");
       clearTimeout(gameTimer);
     }
     // If the player is not dead, then we put a setTimeout to run the gameLoop in 20 milliseconds
@@ -127,6 +127,24 @@ class Engine {
         foe.x === gameEngine.player.x
       ) {
         foe.shot = true;
+        this.hp -= 20;
+        playerHealth.style.width = `${this.hp}%`;
+        if (this.hp < 40) {
+          playerHealth.style.backgroundColor = "red";
+        }
+        if (this.hp === 0) {
+          playerDead = true;
+        }
+      }
+    });
+    this.bossShots.forEach((laser) => {
+      if (
+        laser.y + LASER_HEIGHT > gameEngine.player.y &&
+        laser.y < gameEngine.player.y + PLAYER_HEIGHT &&
+        laser.x + LASER_WIDTH > gameEngine.player.x &&
+        laser.x < gameEngine.player.x
+      ) {
+        laser.shot = true;
         this.hp -= 20;
         playerHealth.style.width = `${this.hp}%`;
         if (this.hp < 40) {

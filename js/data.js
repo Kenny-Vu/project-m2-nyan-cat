@@ -25,5 +25,8 @@ const PROJECTILE_HEIGHT = 20;
 // boss'  height
 const BOSS_HEIGHT = 400;
 const BOSS_WIDTH = 300;
+//laser dimensions
+const LASER_HEIGHT = 200;
+const LASER_WIDTH = 200;
 // constant to store player's score
 let SCORE = 0;
